@@ -1,12 +1,13 @@
 #!/bin/bash
  
+PYTHON_RELEASE_VERSION="3.11"
 PYTHON_INSTALL_VERSION="3.11.8"
 PYTHON_INSTALL_TARBALL="Python-${PYTHON_INSTALL_VERSION}.tgz"
 PYTHON_SOURCE_DIRECTORY="Python-${PYTHON_INSTALL_VERSION}"
 PYTHON_DOWNLOAD_URL="https://www.python.org/ftp/python/${PYTHON_INSTALL_VERSION}/Python-${PYTHON_INSTALL_VERSION}.tgz"
  
  
-PYTHON_INSTALLATION_PATH="/usr/local/bin/${PYTHON_INSTALL_VERSION}"
+PYTHON_INSTALLATION_PATH="/usr/local/bin/python${PYTHON_RELEASE_VERSION}"
  
 print_message()
 {
@@ -53,21 +54,22 @@ print_message "Setting up and enabling optimizations"
 print_message "Compiling Python version ${PYTHON_INSTALL_VERSION}"
 sudo make altinstall
  
-# print_message "Appending Python Path ${PYTHON_INSTALLATION_PATH} to PATH_VARIABLE ${PATH}"
-# echo "export PATH=${PYTHON_INSTALLATION_PATH}:\$PATH" >> ~/.bashrc
+print_message "Creating an Alias for python executable to map to ${PYTHON_INSTALLATION_PATH} for Python ${PYTHON_RELEASE_VERSION} "
+echo "alias python='${PYTHON_INSTALLATION_PATH}'" >> ~/.bashrc
  
-#print_message "Reloading Path and environment variables"
-#source ~/.bashrc
+print_message "Reloading PATH and other environment variables and settings"
+source ~/.bashrc
  
 # Verify Python installation
 print_message "Confirming that we have installed ${PYTHON_INSTALL_VERSION}"
-python3.11 --version
+python --version
  
-# Install pip for Python 3.11
+# Install pip for ${PYTHON_INSTALL_VERSION}
 print_message "Installing Latest Version of PIP"
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3.11 get-pip.py
+python get-pip.py
  
 print_message "Verifying PIP Installation"
 # Verify pip installation
-pip3.11 --version
+pip --version
+ 
